@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rival Fauzi — iOS Developer</title>
+<meta name="description" content="iOS developer yang membangun aplikasi untuk perbankan digital dan produk buatan sendiri dengan UIKit dan MVVM, didukung Supabase.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f5f7fb;
+    --text: #0f1729;
+    --muted: #5b6475;
+    --border: #e3e7ef;
+    --primary: #0D47A1;
+    --primary-contrast: #ffffff;
+    --radius: 16px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0f1a;
+      --surface: #131a2b;
+      --text: #eef1f8;
+      --muted: #9aa4b8;
+      --border: #222c44;
+      --primary: #5B8DEF;
+      --primary-contrast: #0b0f1a;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: "Plus Jakarta Sans", "Inter", sans-serif; line-height: 1.2; }
+  a { color: inherit; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* Nav */
+  nav { padding: 20px 0; }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; text-decoration: none; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 0.95rem; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero { padding: 72px 0 56px; }
+  .eyebrow { color: var(--primary); font-weight: 500; font-size: 0.95rem; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(2.1rem, 6vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; max-width: 16em; }
+  .hero p { color: var(--muted); font-size: 1.1rem; max-width: 34em; margin-top: 18px; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 12px;
+    font-weight: 500; text-decoration: none; border: 1px solid var(--border);
+  }
+  .btn.primary { background: var(--primary); color: var(--primary-contrast); border-color: var(--primary); }
+  .btn:hover { opacity: 0.88; }
+
+  /* Sections */
+  section { padding: 48px 0; }
+  section > .wrap > h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 28px; }
+
+  /* Projects */
+  .project {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px; margin-bottom: 20px;
+  }
+  .project h3 { font-size: 1.3rem; font-weight: 700; }
+  .project .tagline { color: var(--muted); margin: 6px 0 16px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .tag {
+    font-size: 0.8rem; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--muted); background: var(--bg);
+  }
+  .project dl { display: grid; grid-template-columns: 110px 1fr; gap: 10px 16px; font-size: 0.95rem; }
+  .project dt { font-weight: 500; color: var(--muted); }
+  .project .links { display: flex; gap: 18px; margin-top: 20px; font-weight: 500; font-size: 0.95rem; }
+  .project .links a { color: var(--primary); text-decoration: none; }
+  .project .links a:hover { text-decoration: underline; }
+  .shots {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px; margin-bottom: 22px;
+  }
+  .shot {
+    aspect-ratio: 9 / 19.5; border-radius: 20px; border: 1px dashed var(--border);
+    background: var(--bg); display: grid; place-items: center;
+    color: var(--muted); font-size: 0.8rem; text-align: center; padding: 8px;
+  }
+  .shot img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .skill-group { border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .skill-group h3 { font-size: 1rem; margin-bottom: 10px; }
+  .skill-group p { color: var(--muted); font-size: 0.95rem; }
+
+  /* About + Contact */
+  .about p { color: var(--muted); max-width: 36em; margin-bottom: 14px; }
+  .contact { text-align: center; padding: 64px 0 72px; }
+  .contact h2 { font-size: 1.8rem; margin-bottom: 12px; }
+  .contact p { color: var(--muted); margin-bottom: 26px; }
+  .contact .actions { justify-content: center; }
+  footer { border-top: 1px solid var(--border); padding: 24px 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
+
+  @media (max-width: 560px) {
+    nav ul { gap: 14px; font-size: 0.88rem; }
+    .project { padding: 20px; }
+    .project dl { grid-template-columns: 1fr; gap: 2px; }
+    .project dt { margin-top: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">Rival Fauzi</a>
+    <ul>
+      <li><a href="#proyek">Proyek</a></li>
+      <li><a href="#byond">BYOND</a></li>
+      <li><a href="#keahlian">Keahlian</a></li>
+      <li><a href="#tentang">Tentang</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Rival Fauzi &middot; iOS Developer</p>
+    <h1>Membangun aplikasi iOS yang rapi dan mudah digunakan.</h1>
+    <p>Saya membangun aplikasi iOS untuk perbankan digital dan produk buatan sendiri, dengan UIKit dan MVVM. Supabase dan Firebase mendukung di sisi backend. Fokus saya pada produk yang terasa native dan sederhana. Saya berpengalaman membangun produk keuangan digital yang aman dan skalabel.</p>
+    <div class="actions">
+      <a class="btn primary" href="#proyek">Lihat proyek</a>
+      <a class="btn" href="#kontak">Hubungi saya</a>
+      <a class="btn" href="Rival_Fauzi.pdf">Unduh CV</a>
+    </div>
+  </div>
+</header>
+
+<section id="pencapaian">
+  <div class="wrap">
+    <h2>Pencapaian</h2>
+    <div class="skills">
+      <div class="skill-group">
+        <h3>WWDC Swift Student Challenge</h3>
+        <p><strong>Pemenang WWDC23, Mei 2023.</strong> Kompetisi coding internasional dari Apple. Tantangan tahunan Apple yang meminta peserta membuat app playground dengan Swift.</p>
+        <!-- Opsional: tambahkan nama app yang kamu kirim dan link ke repo/video -->
+      </div>
+      <div class="skill-group">
+        <h3>Apple Developer Academy</h3>
+        <p><strong>Lulusan, Feb 2023 &ndash; Des 2023.</strong> Apple Developer Academy @ IL (Associate degree). Program pelatihan pengembangan aplikasi dan desain untuk platform Apple, dari ide sampai rilis di App Store.</p>
+        <!-- Opsional: tambahkan lokasi akademi dan app/capstone yang kamu buat -->
+      </div>
+      <div class="skill-group">
+        <h3>Apple Developer Catalyst Program</h3>
+        <p><strong>Peserta, Mar 2024 &ndash; Agu 2024.</strong> Inkubasi bisnis dari Apple Developer Academy Indonesia. Program Apple untuk mengembangkan keahlian dan aplikasi developer. Ide bisnis Kuttaib membawa saya ke program ini dan mendapat pendanaan awal.</p>
+        <!-- Opsional: tambahkan fokus program atau app yang kamu kembangkan di sana -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proyek">
+  <div class="wrap">
+    <h2>Proyek unggulan</h2>
+
+    <!-- PROYEK 1: Kuttaib -->
+    <article class="project">
+      <div class="shots">
+        <!-- Ganti dengan <img src="img/kuttaib-1.png" alt="Tugas harian Kuttaib"> -->
+        <div class="shot">Screenshot 1<br>(tugas harian)</div>
+        <div class="shot">Screenshot 2<br>(murojaah)</div>
+        <div class="shot">Screenshot 3<br>(setoran)</div>
+      </div>
+      <!-- Video demo: simpan di img/kuttaib-demo.mp4 lalu tambahkan
+           <video controls playsinline style="width:100%;border-radius:16px;margin-bottom:22px" src="img/kuttaib-demo.mp4"></video>
+           atau sematkan dari YouTube -->
+      <h3>Kuttaib</h3>
+      <p class="tagline">Aplikasi pendamping menghafal Al-Qur'an, dari fase ziyadah dan murojaah sampai setoran hafalan bersama ustadz.</p>
+      <div class="tags">
+        <span class="tag">iOS</span>
+        <span class="tag">UIKit</span>
+        <span class="tag">MVVM</span>
+        <span class="tag">Supabase</span>
+        <span class="tag">Pernah rilis di App Store</span>
+        <span class="tag">Sep 2023 &ndash; Agu 2024</span>
+      </div>
+      <dl>
+        <dt>Masalah</dt>
+        <dd>Banyak orang ingin menghafal Al-Qur'an tetapi tidak tahu metode yang tepat. Kuttaib memandu prosesnya lewat tiga fase: ziyadah (menambah hafalan), murojaah (mengulang), dan setoran hafalan bersama ustadz.</dd>
+        <dt>Peran</dt>
+        <dd>Merancang dan membangun aplikasi dari awal sampai akhir (saat ini baru iOS), dengan Supabase sebagai backend. Sebagai bagian dari tim teknologi, saya bertanggung jawab atas seluruh komponen pengembangan teknologi dan ikut meriset fitur yang tepat bersama tim.</dd>
+        <dt>Tantangan</dt>
+        <dd>Membangun sistem pembuat tugas harian yang kompleks, karena harus menyesuaikan preferensi tiap pengguna dan menerjemahkan metode belajar dari ustadz ke dalam logika aplikasi.</dd>
+        <dt>Hasil</dt>
+        <dd>Sempat rilis di App Store dan kini ditarik sementara untuk menyempurnakan MVP. Ide bisnisnya membawa saya ke Apple Developer Catalyst Program 2024 dan mendapat pendanaan awal.</dd>
+      </dl>
+      <div class="links">
+        <a href="#">Video demo</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="byond">
+  <div class="wrap">
+    <h2>Pengalaman kerja: BYOND by BSI</h2>
+
+    <article class="project">
+      <h3>iOS Developer, BYOND by BSI</h3>
+      <p class="tagline">BYOND adalah aplikasi perbankan digital dari Bank Syariah Indonesia. Di sini saya mengerjakan fitur-fitur transaksi dan tabungan di sisi iOS. Berikut beberapa fitur yang sudah rilis ke publik.</p>
+      <div class="tags">
+        <span class="tag">Bank Syariah Indonesia</span>
+        <span class="tag">Mar 2024 &ndash; Sekarang</span>
+        <span class="tag">Swift</span>
+        <span class="tag">VIPER</span>
+        <span class="tag">RxSwift</span>
+        <span class="tag">Combine</span>
+      </div>
+      <dl>
+        <dt>Tanggung jawab</dt>
+        <dd>Mengembangkan aplikasi Byond by BSI di sisi iOS.</dd>
+        <dt>Kontribusi</dt>
+        <dd>Berkontribusi pada pengembangan dan integrasi fitur permintaan nasabah secara aman, termasuk terjemahan bahasa, Valas Multicurrency, auto debit tabungan haji (Hajj Routine), dan auto debit tabungan emas (Gold Routine), dengan penanganan data finansial yang sensitif secara ketat.</dd>
+        <dt>Keamanan</dt>
+        <dd>Membangun lapisan enkripsi untuk penyimpanan lokal data penting pengguna agar data mentah tidak bisa diambil dari perangkat.</dd>
+        <dt>Arsitektur</dt>
+        <dd>Mengembangkan kode dengan arsitektur VIPER dan pemisahan tanggung jawab yang ketat agar modular, serta memakai pemrograman reaktif (RxSwift dan Combine) untuk manajemen state dan penanganan event asinkron.</dd>
+      </dl>
+    </article>
+
+    <!-- FITUR 1 -->
+    <article class="project">
+      <h3>Transaksi Valas Multicurrency</h3>
+      <p class="tagline">Fitur transaksi dengan beberapa mata uang asing langsung dari aplikasi.</p>
+      <div class="tags">
+        <span class="tag">Fase 1 rilis di v1.4.0</span>
+        <span class="tag">iOS</span>
+      </div>
+      <dl>
+        <dt>Masalah</dt>
+        <dd>Nasabah membutuhkan cara bertransaksi valas dalam beberapa mata uang tanpa harus ke kantor cabang.</dd>
+        <dt>Peran</dt>
+        <dd>Membangun seluruh alur di sisi iOS: pembukaan rekening valas dan transaksi valas. Mencakup layar baru (daftar mata uang, simulasi transaksi, dan konfirmasi transaksi) serta penyesuaian layar yang sudah ada untuk multicurrency, seperti layar akad dan status transaksi.</dd>
+        <dt>Tantangan</dt>
+        <dd>Menangani beberapa mata uang yang memiliki aturan berbeda, terutama pada simulasi transaksi, serta alur transaksi yang bercabang antara valas dan rupiah.</dd>
+        <dt>Hasil</dt>
+        <dd>Fase 1 sudah rilis di versi 1.4.0.</dd>
+      </dl>
+    </article>
+
+    <!-- FITUR 2 -->
+    <article class="project">
+      <h3>Auto Debit Tabungan Haji</h3>
+      <p class="tagline">Menabung rutin untuk haji, dari pembukaan rekening sampai jadwal transaksi otomatis.</p>
+      <div class="tags">
+        <span class="tag">Rilis di v1.3.0</span>
+        <span class="tag">iOS</span>
+      </div>
+      <dl>
+        <dt>Masalah</dt>
+        <dd>Menabung untuk haji membutuhkan konsistensi. Nasabah perlu cara yang mudah untuk membuka rekening dan menjadwalkan setoran rutin tanpa mengingat sendiri.</dd>
+        <dt>Peran</dt>
+        <dd>Mengerjakan semua layar baru pada alur pembukaan rekening haji, pengaturan jadwal, sampai transaksi terjadwal ke rekening haji.</dd>
+        <dt>Tantangan</dt>
+        <dd>Menyinkronkan kode baru dengan kode lama, karena fitur haji sudah ada sebelumnya. Kode baru dirancang agar sebisa mungkin tidak berdampak pada kode yang sudah berjalan.</dd>
+        <dt>Hasil</dt>
+        <dd>Sudah rilis di versi 1.3.0.</dd>
+      </dl>
+    </article>
+
+    <!-- FITUR 3 -->
+    <article class="project">
+      <h3>Auto Debit Tabungan Emas</h3>
+      <p class="tagline">Menabung emas secara rutin lewat debit otomatis terjadwal.</p>
+      <div class="tags">
+        <span class="tag">Rilis di v1.3.0</span>
+        <span class="tag">iOS</span>
+      </div>
+      <dl>
+        <dt>Masalah</dt>
+        <dd>Nasabah ingin menabung emas sedikit demi sedikit secara disiplin tanpa harus melakukan setoran manual tiap kali.</dd>
+        <dt>Peran</dt>
+        <dd>Mengerjakan alur pengaturan jadwal dan pembuatan jadwal baru saat transaksi berlangsung.</dd>
+        <dt>Tantangan</dt>
+        <dd>Fitur ini dibangun bersama tim lain dan kami mengerjakan kode di area yang sama, sehingga sering terjadi konflik kode yang perlu ditangani lewat koordinasi.</dd>
+        <dt>Hasil</dt>
+        <dd>Sudah rilis di versi 1.3.0.</dd>
+      </dl>
+    </article>
+
+    <!-- FITUR 4 -->
+    <article class="project">
+      <h3>Show/Hide Fitur dengan Firebase Remote Config</h3>
+      <p class="tagline">Mengatur tampil atau tidaknya sebuah fitur dari jarak jauh tanpa perlu rilis versi baru.</p>
+      <div class="tags">
+        <span class="tag">Firebase Remote Config</span>
+        <span class="tag">Rilis di v1.4.0</span>
+        <span class="tag">iOS</span>
+      </div>
+      <dl>
+        <dt>Masalah</dt>
+        <dd>Fitur perlu bisa dimunculkan atau disembunyikan dengan cepat, misalnya saat rilis bertahap atau ada kendala, tanpa menunggu proses review App Store.</dd>
+        <dt>Peran</dt>
+        <dd>Mengintegrasikan Firebase Remote Config SDK ke aplikasi iOS dan menghubungkannya dengan tampilan fitur di layar.</dd>
+        <dt>Tantangan</dt>
+        <dd>Melakukan riset penggunaan library yang belum mendukung konfigurasi real-time. Saya menyiasatinya dengan mengambil konfigurasi setiap kali aplikasi dibuka, sehingga perubahan tetap bisa diterapkan tanpa rilis versi baru.</dd>
+        <dt>Hasil</dt>
+        <dd>Sudah rilis di versi 1.4.0.</dd>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<section id="pengalaman">
+  <div class="wrap">
+    <h2>Pengalaman sebelumnya</h2>
+
+    <article class="project">
+      <h3>Apple Developer Academy @ IL</h3>
+      <p class="tagline">Mengembangkan solusi aplikasi iOS dari ide sampai rilis di App Store, dan saling mendukung pertumbuhan sesama learner.</p>
+      <div class="tags">
+        <span class="tag">Feb 2023 &ndash; Des 2023</span>
+        <span class="tag">Swift</span>
+        <span class="tag">Xcode</span>
+        <span class="tag">SwiftUI</span>
+      </div>
+      <dl>
+        <dt>BayQuest</dt>
+        <dd>iOS Developer (Jun &ndash; Jul 2023). Menerapkan design pattern di proyek Xcode untuk meningkatkan performa aplikasi, mengelola distribusi lewat TestFlight dan App Store, serta menerapkan manajemen memori yang ketat dan penanganan data yang aman dengan fitur native Swift.</dd>
+        <dt>Cannote</dt>
+        <dd>iOS Developer dan Designer (Mei &ndash; Jun 2023). Mengintegrasikan custom data type dan prinsip OOP di Swift, menerapkan version control Git di proyek Xcode, dan memakai Storybeat untuk membagikan proses pengembangan.</dd>
+        <dt>Electra</dt>
+        <dd>iOS Developer (Mar &ndash; Apr 2023). Menerapkan logika dasar dan pemrograman Swift, membuat proyek dengan Xcode, dan mengintegrasikan kode dasar SwiftUI ke komponen UI native.</dd>
+      </dl>
+    </article>
+
+    <article class="project">
+      <h3>Java Developer, PT Wide Technologies Indonesia</h3>
+      <p class="tagline">Mengembangkan website dan aplikasi mobile BNIDirect serta meneliti teknologi baru untuk meningkatkan kualitas kode.</p>
+      <div class="tags">
+        <span class="tag">Nov 2021 &ndash; Feb 2023</span>
+        <span class="tag">Java</span>
+        <span class="tag">BNIDirect</span>
+      </div>
+      <dl>
+        <dt>Kontribusi</dt>
+        <dd>Mengembangkan dan memelihara modul perbankan BNIDirect (BI Fast Channel, Giro Multi-Currency, BTO Gen 2 Import Guarantee) dengan prioritas pada alur transaksi yang aman dan integritas data.</dd>
+        <dt>Hasil</dt>
+        <dd>Modul diimplementasikan di BNIDirect Web dan BNIDirect Mobile, mendukung lebih dari 50 ribu unduhan di Play Store.</dd>
+      </dl>
+    </article>
+
+    <article class="project">
+      <h3>Developer Intern, Telkom Indonesia</h3>
+      <p class="tagline">Mengembangkan aplikasi sesuai kebutuhan klien.</p>
+      <div class="tags">
+        <span class="tag">Feb 2021 &ndash; Agu 2021</span>
+        <span class="tag">REST API</span>
+        <span class="tag">Database</span>
+      </div>
+      <dl>
+        <dt>Kontribusi</dt>
+        <dd>Berkontribusi pada beberapa proyek, termasuk BTN Smart Property dan MyPertamina. Merancang dan mengimplementasikan database, termasuk membuat Entity Relationship Diagram (ERD), serta membuat REST API yang aman untuk komunikasi terenkripsi antara aplikasi dan sistem backend. Berkolaborasi erat dengan sesama developer dalam proses pengembangan.</dd>
+      </dl>
+    </article>
+
+    <article class="project">
+      <h3>Back-End Engineer Intern, PT Solusi Tiket Digital (DigiTiket)</h3>
+      <p class="tagline">Mengembangkan sisi back-end web dan aplikasi Digitiket serta memastikan kode berjalan dengan baik.</p>
+      <div class="tags">
+        <span class="tag">Jan 2021 &ndash; Mar 2021</span>
+        <span class="tag">PHP Laravel</span>
+      </div>
+      <dl>
+        <dt>Kontribusi</dt>
+        <dd>Mengembangkan dan men-deploy beberapa aplikasi web dengan PHP Laravel. Berkolaborasi dengan developer, desainer, dan stakeholder memakai Trello untuk memperlancar alur kerja dan komunikasi.</dd>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<section id="pendidikan">
+  <div class="wrap">
+    <h2>Pendidikan</h2>
+    <div class="skills">
+      <div class="skill-group">
+        <h3>Binus University</h3>
+        <p><strong>Bachelor of Computer Science.</strong> Jun 2022 &ndash; Des 2024. IPK 3,70 / 4,00.</p>
+      </div>
+      <div class="skill-group">
+        <h3>Apple Developer Academy @ IL</h3>
+        <p><strong>Associate degree.</strong> Mar 2023 &ndash; Des 2023.</p>
+      </div>
+      <div class="skill-group">
+        <h3>Telkom University</h3>
+        <p><strong>Diploma of Telecommunications Engineering.</strong> Aug 2018 &ndash; Okt 2021. IPK 3,64 / 4,00.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="keahlian">
+  <div class="wrap">
+    <h2>Keahlian</h2>
+    <div class="skills">
+      <div class="skill-group">
+        <h3>iOS</h3>
+        <p>Swift, UIKit, Xcode, Git, Auto Layout, Interface Builder, animasi (Core Animation), deep link, Human Interface Guidelines, manajemen memori, secure coding.</p>
+      </div>
+      <div class="skill-group">
+        <h3>Arsitektur</h3>
+        <p>MVVM, VIPER, komponen UI yang bisa dipakai ulang, design system (token warna, tipografi, spacing), pemrograman reaktif (RxSwift, Combine).</p>
+      </div>
+      <div class="skill-group">
+        <h3>Pendukung</h3>
+        <p>Backend dan layanan yang menopang aplikasi iOS: Supabase (Auth, database, Edge Functions dengan TypeScript/Deno), autentikasi sosial, dan Firebase Remote Config. Pengalaman sebelumnya juga mencakup Java, PHP Laravel, dan REST API.</p>
+      </div>
+      <div class="skill-group">
+        <h3>Soft skill</h3>
+        <p>Critical thinking, problem solving, komunikasi, kerja sama tim, dan kepemimpinan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tentang" class="about">
+  <div class="wrap">
+    <h2>Tentang saya</h2>
+    <p>Saya lulusan Apple Developer Academy 2023 dan pemenang WWDC Swift Student Challenge 2023. Saya iOS developer yang menyukai irisan antara engineering dan desain. Saya lebih suka antarmuka yang minimal, pola native iOS, dan sistem visual yang bersih daripada fitur yang berlebihan. Saya berbasis di Tangerang Selatan, Banten, dan terbiasa menganalisis codebase yang kompleks (VIPER, RxSwift) dengan memperhatikan keamanan, integritas, dan performa aplikasi.</p>
+    <p>Saat ini saya terbuka untuk peran full-time maupun kolaborasi.</p>
+  </div>
+</section>
+
+<section id="kontak" class="contact">
+  <div class="wrap">
+    <h2>Mari bekerja sama</h2>
+    <p>Terbuka untuk peran full-time dan kolaborasi. Kirim pesan, saya biasanya membalas dalam 1-2 hari.</p>
+    <div class="actions">
+      <a class="btn primary" href="mailto:rival.fauzi.id@gmail.com">rival.fauzi.id@gmail.com</a>
+      <a class="btn" href="https://github.com/usernamekamu">GitHub</a>
+      <a class="btn" href="https://www.linkedin.com/in/rival-fauzi">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Rival Fauzi</div>
+</footer>
+
+</body>
+</html>
